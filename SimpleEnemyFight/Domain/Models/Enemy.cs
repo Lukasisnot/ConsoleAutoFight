@@ -9,20 +9,21 @@ namespace SimpleEnemyFight
 {
     internal class Enemy : Entity
     {
-        Random rand;
-
+        private Random rand;
         public static int EnemyCount;
         public float BaseDamage { get; private set; }
         public EWeapons Weapon { get; private set; }
         public float Hp { get; set; }
-        private float maxHp;
+        public float MaxHp { get; private set; }
         public bool IsAlive
         {
             get { return Hp > 0; }
             set { }
         }
+        public EEnemyState State { get; set; }
+        public ConsoleColor Color { get; set; }
 
-        public Enemy(string name, float baseDamage, EWeapons weapon, float hp) 
+        public Enemy(string name, float baseDamage, EWeapons weapon, float hp, ConsoleColor color) 
         {
             EnemyCount++;
             this.IsAlive = true;
@@ -30,7 +31,8 @@ namespace SimpleEnemyFight
             this.BaseDamage = baseDamage; 
             this.Weapon = weapon;
             this.Hp = hp;
-            this.maxHp = hp;
+            this.Color = color;
+            this.MaxHp = hp;
             rand = new Random((int)DateTime.Now.Ticks * EnemyCount);
             Console.WriteLine(rand.Next(100));
         }
@@ -68,17 +70,37 @@ namespace SimpleEnemyFight
             switch(potion)
             {
                 case EPotions.SMALL: 
-                    this.Hp += 25;
+                    this.Hp += 5;
                     break;
                 case EPotions.MEDIUM: 
-                    this.Hp += 50;
+                    this.Hp += 10;
                     break;
                 case EPotions.LARGE: 
-                    this.Hp += 75;
+                    this.Hp += 15;
                     break;
             }
 
-            this.Hp = Math.Min(this.Hp, this.maxHp);
+            this.Hp = Math.Min(this.Hp, this.MaxHp);
+        }
+        
+        public void Heal()
+        {
+            if (!this.IsAlive) return;
+
+            switch(rand.Next(3))
+            {
+                case 0: 
+                    this.Hp += 5;
+                    break;
+                case 1: 
+                    this.Hp += 12;
+                    break;
+                case 2: 
+                    this.Hp += 15;
+                    break;
+            }
+
+            this.Hp = Math.Min(this.Hp, this.MaxHp);
         }
 
         public override string ToString() 
