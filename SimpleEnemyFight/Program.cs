@@ -1,17 +1,12 @@
-﻿using BasicConsoleRenderer;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
+using SimpleEnemyFight.Domain.Enums;
+using SimpleEnemyFight.Domain.Models;
 
 namespace SimpleEnemyFight
 {
     internal class Program
     {
-        static Renderer _renderer;
+        static RendererLegacy _renderer;
         static GameSim _gameSim;
         
         static void Main(string[] args)
@@ -21,10 +16,10 @@ namespace SimpleEnemyFight
                 Console.SetCursorPosition(0, 0);
                 Console.CursorVisible = false;
 
-                _renderer = new Renderer(100, 20);
-                Enemy pl1 = new Enemy("Blud", 20, EWeapons.STICK, 50, ConsoleColor.Cyan);
-                Enemy pl2 = new Enemy("JayJay", 20, EWeapons.STICK, 50, ConsoleColor.Red);
-                _gameSim = new GameSim(_renderer, pl1, pl2, 0, 0, 800);
+                _renderer = new RendererLegacy(100, 20);
+                EnemyLegacy pl1 = new EnemyLegacy("Blud", 20, EWeapons.STICK, 50, ConsoleColor.Cyan);
+                EnemyLegacy pl2 = new EnemyLegacy("JayJay", 20, EWeapons.STICK, 50, ConsoleColor.Red);
+                _gameSim = new GameSim(_renderer, pl1, pl2, 0, 0, 800, 2);
                 _gameSim.Start();
 
                 Console.ReadLine();

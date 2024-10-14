@@ -1,7 +1,9 @@
-﻿namespace SimpleEnemyFight
+﻿namespace SimpleEnemyFight.Domain.Enums
 {
     public enum EPotions
     {
-        SMALL, MEDIUM, LARGE
+        SMALL,
+        MEDIUM,
+        LARGE
     }
 }

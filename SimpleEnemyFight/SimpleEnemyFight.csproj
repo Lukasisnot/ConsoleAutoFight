@@ -47,11 +47,19 @@
     <Compile Include="Domain\Enums\EPotions.cs" />
     <Compile Include="Domain\Enums\ESprites.cs" />
     <Compile Include="Domain\Enums\EWeapons.cs" />
+    <Compile Include="Domain\Models\Character.cs" />
     <Compile Include="Domain\Models\Enemy.cs" />
+    <Compile Include="Domain\Models\EnemyLegacy.cs" />
     <Compile Include="Domain\Models\Entity.cs" />
+    <Compile Include="Domain\Models\EntityLegacy.cs" />
+    <Compile Include="Domain\Models\GameObject.cs" />
     <Compile Include="Domain\Models\GameSim.cs" />
+    <Compile Include="Domain\Models\Player.cs" />
     <Compile Include="Domain\Models\Renderer.cs" />
+    <Compile Include="Domain\Models\RendererLegacy.cs" />
+    <Compile Include="Domain\Models\Room.cs" />
     <Compile Include="Domain\Models\Spot.cs" />
+    <Compile Include="Domain\Models\Treasure.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

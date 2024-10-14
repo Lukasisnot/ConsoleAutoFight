@@ -1,4 +1,4 @@
-﻿namespace SimpleEnemyFight
+﻿namespace SimpleEnemyFight.Domain.Enums
 {
     public enum EEnemyState
     {

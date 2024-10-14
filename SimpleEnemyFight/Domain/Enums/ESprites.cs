@@ -1,4 +1,4 @@
-﻿namespace SimpleEnemyFight
+﻿namespace SimpleEnemyFight.Domain.Enums
 {
     public enum ESprites
     {
@@ -17,6 +17,10 @@
         LEFT_DEAD,
         RIGHT_DEAD,
         LEFT_WIN,
-        RIGHT_WIN
+        RIGHT_WIN,
+        CHEST_CLOSED,
+        CHEST_OPENED,
+        POTION,
+        SWORD
     }
 }

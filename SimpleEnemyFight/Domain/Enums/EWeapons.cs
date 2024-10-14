@@ -1,7 +1,9 @@
-﻿namespace SimpleEnemyFight
+﻿namespace SimpleEnemyFight.Domain.Enums
 {
     public enum EWeapons
     {
-        STICK, DAGGER, SWORD
+        STICK,
+        DAGGER,
+        SWORD
     }
 }

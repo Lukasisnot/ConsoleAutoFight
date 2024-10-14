@@ -5,7 +5,7 @@ using SimpleEnemyFight.Domain.Enums;
 namespace SimpleEnemyFight.Domain.Models
 {
 
-    internal class Renderer
+    internal class RendererLegacy
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -14,7 +14,7 @@ namespace SimpleEnemyFight.Domain.Models
         private string spriteSheet;
         private string[] sprites;
 
-        public Renderer(int width = 100, int height = 30)
+        public RendererLegacy(int width = 100, int height = 30)
         {
             this.Width = width;
             this.Height = height;
@@ -104,7 +104,7 @@ namespace SimpleEnemyFight.Domain.Models
             }
         }
 
-        public void HealthBar(int x, int y, int width, Entity entity,bool flip = false, ConsoleColor color = ConsoleColor.Green)
+        public void HealthBar(int x, int y, int width, EnemyLegacy entity,bool flip = false, ConsoleColor color = ConsoleColor.Green)
         {
             float hpPerChar = (float)entity.MaxHp / width;
             int hpChars = (int)Math.Ceiling(entity.Hp / hpPerChar);

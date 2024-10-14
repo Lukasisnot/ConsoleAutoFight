@@ -1,27 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using BasicConsoleRenderer;
+using SimpleEnemyFight.Domain.Enums;
 
-namespace SimpleEnemyFight
+namespace SimpleEnemyFight.Domain.Models
 {
     internal class GameSim
     {
-        private readonly Enemy plL, plR;
-        private readonly Enemy[] pls = new Enemy[2];
-        private readonly Renderer renderer;
+        private readonly EnemyLegacy plL, plR;
+        private readonly EnemyLegacy[] pls = new EnemyLegacy[2];
+        private readonly RendererLegacy renderer;
         private Random rand = new Random();
 
         public int Xpos { get; set; }
         public int Ypos { get; set; }
         public int StepInterval { get; set; }
         public int HealChance { get; set; }
-        public GameSim(Renderer renderer, Enemy plL, Enemy plR, int xpos, int ypos, int stepInterval, int healChance = 5)
+        public GameSim(RendererLegacy renderer, EnemyLegacy plL, EnemyLegacy plR, int xpos, int ypos, int stepInterval, int healChance = 5)
         {
             this.renderer = renderer;
             this.plL = plL;
@@ -164,7 +158,7 @@ namespace SimpleEnemyFight
             
             renderer.HealthBar(0, 0, 10, plL);
             renderer.HealthBar(12, 0, 10, plR, true);
-
+            
             renderer.Update();
         }
 
@@ -201,7 +195,7 @@ namespace SimpleEnemyFight
             }
         }
 
-        Enemy other(Enemy current)
+        EnemyLegacy other(EnemyLegacy current)
         {
             return current == plL ? plR : plL;
         }
