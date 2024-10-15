@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using SimpleEnemyFight.Domain.Enums;
 
 namespace SimpleEnemyFight.Domain.Models
@@ -6,18 +7,51 @@ namespace SimpleEnemyFight.Domain.Models
     internal class Character : Entity
     {
         public float BaseDamage { get; private set; }
-        public EWeapons Weapon { get; private set; }
+        public EWeapons Weapon;
+        public ECharState State;
+        public bool IsLeft;
 
-        public Character(string name, ConsoleColor color, float hp, float baseDamage, EWeapons weapon) : base(name, color, hp)
+        public override ESprites Sprite
         {
-            BaseDamage = baseDamage;
-            Weapon = weapon;
+            get
+            {
+                return Renderer.ConvertCharSprite(State, IsLeft);
+            }
+            set {}
         }
 
-        public virtual void Attack(Entity entity)
-        {
-            float dmgMult = 1;
+        protected System.Timers.Timer AttackTimer = new System.Timers.Timer(500);
+        protected System.Timers.Timer DodgeTimer = new System.Timers.Timer(550);
+        protected System.Timers.Timer HealTimer = new System.Timers.Timer(1000);
 
+        public Character(string name, ECharState state, bool isLeft, ConsoleColor color, float hp, float baseDamage, EWeapons weapon) : base(name, Renderer.ConvertCharSprite(state, isLeft), color, hp)
+        {
+            State = state;
+            IsLeft = isLeft;
+            BaseDamage = baseDamage;
+            Weapon = weapon;
+
+            AttackTimer.Elapsed += (Object source, ElapsedEventArgs e) => { State = ECharState.STAND; };
+            AttackTimer.AutoReset = false;
+            AttackTimer.Enabled = false;
+            HealTimer.Elapsed += (Object source, ElapsedEventArgs e) => { State = ECharState.STAND; };
+            HealTimer.AutoReset = false;
+            HealTimer.Enabled = false;
+            DodgeTimer.Elapsed += (Object source, ElapsedEventArgs e) => { State = ECharState.STAND; };
+            DodgeTimer.AutoReset = false;
+            DodgeTimer.Enabled = false;
+        }
+
+        public virtual void Update()
+        {
+            Draw();
+        }
+
+        public virtual void Attack(Entity? entity = null)
+        {
+            State = ECharState.ATTACK;
+            AttackTimer.Start();
+            float dmgMult = 1;
             switch (Weapon)
             {
                 case EWeapons.STICK: 
@@ -30,14 +64,14 @@ namespace SimpleEnemyFight.Domain.Models
                     dmgMult = 1.5f;
                     break;
             }
-
-            entity.Damage(Math.Max(0, entity.Hp - this.BaseDamage * dmgMult));
+            if (entity != null) entity.Damage(Math.Max(0, entity.Hp - this.BaseDamage * dmgMult));
         }
         
         public virtual void Heal(EPotions potion)
         {
             if (!IsAlive) return;
-
+            State = ECharState.HEAL;
+            HealTimer.Start();
             switch(potion)
             {
                 case EPotions.SMALL: 
@@ -52,6 +86,12 @@ namespace SimpleEnemyFight.Domain.Models
             }
 
             Hp = Math.Min(Hp, MaxHp);
+        }
+
+        public virtual void Dodge()
+        {
+            State = ECharState.DODGE;
+            DodgeTimer.Start();
         }
         
         public override string ToString() 

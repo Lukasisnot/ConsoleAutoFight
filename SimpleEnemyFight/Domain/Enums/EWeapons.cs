@@ -4,6 +4,7 @@
     {
         STICK,
         DAGGER,
-        SWORD
+        SWORD,
+        NONE
     }
 }

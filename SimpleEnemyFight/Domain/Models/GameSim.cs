@@ -38,28 +38,28 @@ namespace SimpleEnemyFight.Domain.Models
             switch (rand.Next(6))
             {
                 case 0:
-                    plL.State = EEnemyState.HIT;
-                    plR.State = EEnemyState.ATTACK;
+                    plL.State = ECharState.HIT;
+                    plR.State = ECharState.ATTACK;
                     break;
                 case 1:
-                    plL.State = EEnemyState.ATTACK;
-                    plR.State = EEnemyState.HIT;
+                    plL.State = ECharState.ATTACK;
+                    plR.State = ECharState.HIT;
                     break;
                 case 2:
-                    plL.State = EEnemyState.ATTACK;
-                    plR.State = EEnemyState.DODGE;
+                    plL.State = ECharState.ATTACK;
+                    plR.State = ECharState.DODGE;
                     break;
                 case 3:
-                    plL.State = EEnemyState.DODGE;
-                    plR.State = EEnemyState.ATTACK;
+                    plL.State = ECharState.DODGE;
+                    plR.State = ECharState.ATTACK;
                     break;
                 case 4:
-                    plL.State = EEnemyState.COLLISION;
-                    plR.State = EEnemyState.COLLISION;
+                    plL.State = ECharState.COLLISION;
+                    plR.State = ECharState.COLLISION;
                     break;
                 case 5:
-                    plL.State = EEnemyState.COLLISION;
-                    plR.State = EEnemyState.COLLISION;
+                    plL.State = ECharState.COLLISION;
+                    plR.State = ECharState.COLLISION;
                     break;
             }
             
@@ -72,8 +72,8 @@ namespace SimpleEnemyFight.Domain.Models
             
             foreach (var pl in pls)
             { 
-                if (pl.State == EEnemyState.HIT) other(pl).Attack(pl);
-                pl.State = pl.IsAlive ? EEnemyState.STAND : EEnemyState.DEAD;
+                if (pl.State == ECharState.HIT) other(pl).Attack(pl);
+                pl.State = pl.IsAlive ? ECharState.STAND : ECharState.DEAD;
             }
             
             Thread.Sleep(StepInterval / 2);
@@ -95,7 +95,7 @@ namespace SimpleEnemyFight.Domain.Models
         {
             foreach (var pl in pls)
             {
-                pl.State = EEnemyState.HEAL;
+                pl.State = ECharState.HEAL;
                 pl.Heal();
             }
             InterStep(false);
@@ -104,7 +104,7 @@ namespace SimpleEnemyFight.Domain.Models
         void End()
         {
             foreach (var pl in pls)
-                if(pl.IsAlive) pl.State = EEnemyState.WIN;
+                if(pl.IsAlive) pl.State = ECharState.WIN;
             Draw();
         }
 
@@ -126,13 +126,13 @@ namespace SimpleEnemyFight.Domain.Models
             
             switch (plL.State)
             {
-                case EEnemyState.ATTACK:
+                case ECharState.ATTACK:
                     xOffset = 4;
                     break;
-                case EEnemyState.COLLISION:
+                case ECharState.COLLISION:
                     xOffset = 2;
                     break;
-                case EEnemyState.DODGE:
+                case ECharState.DODGE:
                     xOffset = 2;
                     break;
             }
@@ -141,13 +141,13 @@ namespace SimpleEnemyFight.Domain.Models
             switch (plR.State)
             {
                 
-                case EEnemyState.ATTACK:
+                case ECharState.ATTACK:
                     xOffset = 5;
                     break;
-                case EEnemyState.COLLISION:
+                case ECharState.COLLISION:
                     xOffset = 8;
                     break;
-                case EEnemyState.HIT:
+                case ECharState.HIT:
                     xOffset = 10;
                     break;
                 default:
@@ -162,32 +162,32 @@ namespace SimpleEnemyFight.Domain.Models
             renderer.Update();
         }
 
-        ESprites toESprites(EEnemyState state, bool left)
+        ESprites toESprites(ECharState state, bool left)
         {
             switch (state)
             {
-                case EEnemyState.STAND:
+                case ECharState.STAND:
                     return left ? ESprites.LEFT_STAND : ESprites.RIGHT_STAND;
                     break;
-                case EEnemyState.DODGE:
+                case ECharState.DODGE:
                     return left ? ESprites.LEFT_DODGE : ESprites.RIGHT_DODGE;
                     break;
-                case EEnemyState.COLLISION:
+                case ECharState.COLLISION:
                     return left ? ESprites.LEFT_COLLISION : ESprites.RIGHT_COLLISION;
                     break;
-                case EEnemyState.ATTACK:
+                case ECharState.ATTACK:
                     return left ? ESprites.LEFT_ATTACK : ESprites.RIGHT_ATTACK;
                     break;
-                case EEnemyState.HEAL:
+                case ECharState.HEAL:
                     return left ? ESprites.LEFT_HEAL : ESprites.RIGHT_HEAL;
                     break;
-                case EEnemyState.HIT:
+                case ECharState.HIT:
                     return left ? ESprites.LEFT_HIT : ESprites.RIGHT_HIT;
                     break;
-                case EEnemyState.DEAD:
+                case ECharState.DEAD:
                     return left ? ESprites.LEFT_DEAD : ESprites.RIGHT_DEAD;
                     break;
-                case EEnemyState.WIN:
+                case ECharState.WIN:
                     return left ? ESprites.LEFT_WIN : ESprites.RIGHT_WIN;
                     break;
                 default:

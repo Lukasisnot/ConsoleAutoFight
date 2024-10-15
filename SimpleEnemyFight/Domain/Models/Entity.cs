@@ -3,8 +3,11 @@ using SimpleEnemyFight.Domain.Enums;
 
 namespace SimpleEnemyFight.Domain.Models
 {
-    internal class Entity : GameObject
+    public class Entity : GameObject
     {
+        public virtual ESprites Sprite { get; set; }
+        public int X = 0, Y = 0;
+        public bool Visible = true;
         public ConsoleColor Color { get; set; }
         public string Name { get; set; }
         public float Hp { get; protected set; }
@@ -15,9 +18,10 @@ namespace SimpleEnemyFight.Domain.Models
             set { }
         }
 
-        public Entity(string name, ConsoleColor color, float hp) : base()
+        public Entity(string name, ESprites sprite, ConsoleColor color, float hp) : base()
         {
             Name = name;
+            Sprite = sprite;
             Color = color;
             Hp = hp;
             MaxHp = hp;
@@ -26,6 +30,11 @@ namespace SimpleEnemyFight.Domain.Models
         public virtual void Damage(float damage)
         {
             this.Hp -= damage;
+        }
+
+        public virtual void Draw()
+        {
+            Renderer.Sprite(Sprite, X, Y, Color);
         }
         
         public override string ToString() 

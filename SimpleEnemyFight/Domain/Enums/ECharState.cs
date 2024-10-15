@@ -1,6 +1,6 @@
 ﻿namespace SimpleEnemyFight.Domain.Enums
 {
-    public enum EEnemyState
+    public enum ECharState
     {
         STAND,
         DODGE,

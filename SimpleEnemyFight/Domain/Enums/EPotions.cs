@@ -4,6 +4,7 @@
     {
         SMALL,
         MEDIUM,
-        LARGE
+        LARGE,
+        NONE
     }
 }

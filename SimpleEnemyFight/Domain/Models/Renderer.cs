@@ -5,20 +5,20 @@ using SimpleEnemyFight.Domain.Enums;
 namespace SimpleEnemyFight.Domain.Models
 {
 
-    internal class Renderer
+    public static class Renderer
     {
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public static int Width { get; private set; }
+        public static int Height { get; private set; }
 
-        private Spot[,] buffer;
-        private string spriteSheet;
-        private string[] sprites;
+        private static Spot[,] buffer;
+        private static string spriteSheet;
+        private static string[] sprites;
 
-        public Renderer(int width = 100, int height = 30)
+        public static void Init()
         {
-            this.Width = width;
-            this.Height = height;
-            buffer = new Spot[height, width];
+            Width = 100;
+            Height = 20;
+            buffer = new Spot[Height, Width];
 
             // init buffer
             for (int i = 0; i < Height; i++)
@@ -43,7 +43,7 @@ namespace SimpleEnemyFight.Domain.Models
             }
         }
 
-        public void Draw()
+        public static void Draw()
         {
             for (int i = 0; i < Height; i++)
             {
@@ -56,7 +56,7 @@ namespace SimpleEnemyFight.Domain.Models
             }
         }
 
-        public void Update()
+        public static void Update()
         {
             Console.Clear();
             Console.WriteLine("\x1b[3J");
@@ -73,7 +73,7 @@ namespace SimpleEnemyFight.Domain.Models
             }
         }
 
-        public void Rect(int x, int y, int width, int height)
+        public static void Rect(int x, int y, int width, int height)
         {
             for (int i = y; i < y + height; i++)
             {
@@ -85,12 +85,12 @@ namespace SimpleEnemyFight.Domain.Models
             }
         }
 
-        public void Sprite(ESprites sprite, int x = 0, int y = 0, ConsoleColor color = ConsoleColor.White)
+        public static void Sprite(ESprites sprite, int x = 0, int y = 0, ConsoleColor color = ConsoleColor.White)
         {
             int ch = 0;
-            for (int i = y; i < this.Height; i++)
+            for (int i = y; i < Height; i++)
             {
-                for (int j = x; j < this.Width; j++)
+                for (int j = x; j < Width; j++)
                 {
                     // char currentChar = sprites[(int)sprite][Math.Min(sprites[(int)sprite].Length - 1, ch++)];
                     char currentChar = sprites[(int)sprite][ch++];
@@ -103,8 +103,13 @@ namespace SimpleEnemyFight.Domain.Models
                 }
             }
         }
+        
+        public static void Sprite(ECharState sprite, bool isLeft = true, int x = 0, int y = 0, ConsoleColor color = ConsoleColor.White)
+        {
+            Sprite(ConvertCharSprite(sprite, isLeft), x, y, color);
+        }
 
-        public void HealthBar(int x, int y, int width, Entity entity,bool flip = false, ConsoleColor color = ConsoleColor.Green)
+        public static void HealthBar(int x, int y, int width, Entity entity, bool flip = false, ConsoleColor color = ConsoleColor.Green)
         {
             float hpPerChar = (float)entity.MaxHp / width;
             int hpChars = (int)Math.Ceiling(entity.Hp / hpPerChar);
@@ -122,6 +127,39 @@ namespace SimpleEnemyFight.Domain.Models
                 else buffer[y + 1, j].Char = j - x < hpChars ? '\u2588' : '\u2591'; // █ ░
                 
                 buffer[y + 1, j].Color = color;
+            }
+        }
+        
+        public static ESprites ConvertCharSprite(ECharState state, bool isLeft)
+        {
+            switch (state)
+            {
+                case ECharState.STAND:
+                    return isLeft ? ESprites.LEFT_STAND : ESprites.RIGHT_STAND;
+                    break;
+                case ECharState.DODGE:
+                    return isLeft ? ESprites.LEFT_DODGE : ESprites.RIGHT_DODGE;
+                    break;
+                case ECharState.COLLISION:
+                    return isLeft ? ESprites.LEFT_COLLISION : ESprites.RIGHT_COLLISION;
+                    break;
+                case ECharState.ATTACK:
+                    return isLeft ? ESprites.LEFT_ATTACK : ESprites.RIGHT_ATTACK;
+                    break;
+                case ECharState.HEAL:
+                    return isLeft ? ESprites.LEFT_HEAL : ESprites.RIGHT_HEAL;
+                    break;
+                case ECharState.HIT:
+                    return isLeft ? ESprites.LEFT_HIT : ESprites.RIGHT_HIT;
+                    break;
+                case ECharState.DEAD:
+                    return isLeft ? ESprites.LEFT_DEAD : ESprites.RIGHT_DEAD;
+                    break;
+                case ECharState.WIN:
+                    return isLeft ? ESprites.LEFT_WIN : ESprites.RIGHT_WIN;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
 

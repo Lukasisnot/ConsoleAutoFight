@@ -16,7 +16,7 @@ namespace SimpleEnemyFight.Domain.Models
             get { return Hp > 0; }
             set { }
         }
-        public EEnemyState State { get; set; }
+        public ECharState State { get; set; }
         public ConsoleColor Color { get; set; }
 
         public EnemyLegacy(string name, float baseDamage, EWeapons weapon, float hp, ConsoleColor color) 
