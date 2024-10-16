@@ -55,6 +55,7 @@
     <Compile Include="Domain\Models\EnemyLegacy.cs" />
     <Compile Include="Domain\Models\Entity.cs" />
     <Compile Include="Domain\Models\EntityLegacy.cs" />
+    <Compile Include="Domain\Models\Game.cs" />
     <Compile Include="Domain\Models\GameObject.cs" />
     <Compile Include="Domain\Models\GameSim.cs" />
     <Compile Include="Domain\Models\InputHandler.cs" />

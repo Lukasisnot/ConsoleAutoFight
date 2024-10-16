@@ -67,8 +67,20 @@ namespace SimpleEnemyFight.Domain.Models
             {
                 for (int j = 0; j < Width; j++)
                 {
+                    if (!buffer[i, j].ShouldUpdate) continue;
                     buffer[i, j].Char = ' ';
                     buffer[i, j].Color = ConsoleColor.White;
+                }
+            }
+        }
+
+        public static void ResetBufferShouldUpdate()
+        {
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    buffer[i, j].ShouldUpdate = false;
                 }
             }
         }
@@ -83,6 +95,18 @@ namespace SimpleEnemyFight.Domain.Models
                     buffer[i, j].Color = ConsoleColor.White;
                 }
             }
+        }
+
+        public static void Text(int x, int y, string text, ConsoleColor color = ConsoleColor.White)
+        {
+            string[] rows = text.Split('\n');
+            for (int i = 0; i < rows.Length; i++)
+                for (int j = 0; j < rows[i].Length; j++)
+                {
+                    buffer[y + i, x + j].Char = rows[i][j];
+                    buffer[y + i, x + j].Color = color;
+                    buffer[y + i, x + j].ShouldUpdate = false;
+                }
         }
 
         public static void Sprite(ESprites sprite, int x = 0, int y = 0, ConsoleColor color = ConsoleColor.White)

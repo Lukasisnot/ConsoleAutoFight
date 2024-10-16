@@ -11,22 +11,21 @@ namespace SimpleEnemyFight
         static Dungeon _dungeon;
         static InputHandler _inputHandler;
         static Player _player;
+        static Game _game;
         
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
             Renderer.Init();
             _player = new Player("Lukas", ECharState.STAND, true, ConsoleColor.Cyan, 100, 10, EWeapons.STICK);
+            _dungeon = new Dungeon(8);
+            _game = new Game(_player, _dungeon);
             
             while (true)
             {
                 Console.SetCursorPosition(0, 0);
-                
-                _player.Update();
+                _game.DUpdate();
                 Renderer.Update();
-                
-                // Thread.Sleep(20);
-                // Console.ReadLine();
             }
             
             // while (true)
@@ -43,9 +42,6 @@ namespace SimpleEnemyFight
             //     Console.ReadLine();
             // }
             
-            // _dungeon = new Dungeon(12);
-            // Console.WriteLine("Done!");
-            // Console.ReadLine();
         }
     }
 }

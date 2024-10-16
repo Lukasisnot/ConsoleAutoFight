@@ -22,23 +22,25 @@ namespace SimpleEnemyFight.Domain.Models
 
         public Room(int x, int y, Enemy? enemy = null, Treasure? treasure = null)
         {
-            // DoorNum = doorNum;
             RoomCount++;
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
             
             if (enemy is null && treasure is null)
             {
                 if (Rand.Next(2) == 0)
-                    enemy = Enemy.Factory.CreateEnemy[Rand.Next(Enemy.Factory.CreateEnemy.Length)];
+                    Enemy = Enemy.Factory.CreateEnemy[Rand.Next(Enemy.Factory.CreateEnemy.Length)];
                 else
-                    treasure = new Treasure();
+                    Treasure = new Treasure();
             }
             else
             {
                 Enemy = enemy;
                 Treasure = treasure;
             }
+
+            if (Enemy != null) Enemy.X = 10;
+            if (Treasure != null) Treasure.X = 10;
         }
         
         ~Room()
@@ -46,20 +48,9 @@ namespace SimpleEnemyFight.Domain.Models
             RoomCount--;
         }
 
-        // public void GenDoors()
-        // {
-        //     int doorCount = 0;
-        //     foreach (bool door in Door) if (door) doorCount++;
-        //
-        //     for (int i = 0; i < Door.Length; i++)
-        //     {
-        //         if (!Door[i])
-        //         {
-        //             Door[i] = true;
-        //             doorCount++;
-        //         }
-        //         if (doorCount == DoorNum) break;
-        //     }
-        // }
+        public Entity GetRoomEntity()
+        {
+            return (Entity?)Enemy ?? Treasure;
+        }
     }
 }

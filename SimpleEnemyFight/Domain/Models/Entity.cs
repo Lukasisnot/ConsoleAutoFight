@@ -18,6 +18,9 @@ namespace SimpleEnemyFight.Domain.Models
             set { }
         }
 
+        public delegate void DiedDelegate();
+        public DiedDelegate DDied;
+
         public Entity(string name, ESprites sprite, ConsoleColor color, float hp) : base()
         {
             Name = name;
@@ -27,9 +30,20 @@ namespace SimpleEnemyFight.Domain.Models
             MaxHp = hp;
         }
         
+        public virtual void Update()
+        {
+            Draw();
+        }
+        
         public virtual void Damage(float damage)
         {
             this.Hp -= damage;
+            if (!(Hp > 0)) Die();
+        }
+
+        public virtual void Die()
+        {
+            DDied();
         }
 
         public virtual void Draw()
@@ -37,7 +51,7 @@ namespace SimpleEnemyFight.Domain.Models
             Renderer.Sprite(Sprite, X, Y, Color);
         }
         
-        public override string ToString() 
+        public override string ToString()
         {
             string output = $"Name: {Name}" +
                             $"HP: {Hp}" +

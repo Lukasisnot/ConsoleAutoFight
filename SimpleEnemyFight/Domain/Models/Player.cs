@@ -3,9 +3,10 @@ using SimpleEnemyFight.Domain.Enums;
 
 namespace SimpleEnemyFight.Domain.Models
 {
-    internal class Player : Character
+    public class Player : Character
     {
-        public ConsoleKeyInfo input;
+        public ConsoleKeyInfo Input;
+        public Entity? RoomEntity;
 
         public Player(string name, ECharState state, bool isLeft, ConsoleColor color, float hp, float baseDamage, EWeapons weapon) : base(name, state, isLeft, color, hp, baseDamage, weapon)
         {
@@ -14,13 +15,13 @@ namespace SimpleEnemyFight.Domain.Models
         public override void Update()
         {
             base.Update();
-            if (!Console.KeyAvailable) return;
-            if (State == ECharState.STAND)
-                input = Console.ReadKey(true);
-            switch (input.Key)
+            if (!Console.KeyAvailable || State != ECharState.STAND) return;
+            Input = Console.ReadKey(true);
+            
+            switch (Input.Key)
             {
                 case ConsoleKey.D:
-                    Attack();
+                    Attack(RoomEntity);
                     break;
                 case ConsoleKey.E:
                     Heal(EPotions.MEDIUM);
@@ -31,6 +32,7 @@ namespace SimpleEnemyFight.Domain.Models
                 default:
                     break;
             }
+                
             while(Console.KeyAvailable) 
                 Console.ReadKey(false);
         }

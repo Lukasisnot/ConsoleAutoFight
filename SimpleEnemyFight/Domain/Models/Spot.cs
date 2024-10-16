@@ -6,6 +6,7 @@ namespace SimpleEnemyFight.Domain.Models
     {
         public char Char;
         public ConsoleColor Color;
+        public bool ShouldUpdate = true;
 
         public Spot()
         {

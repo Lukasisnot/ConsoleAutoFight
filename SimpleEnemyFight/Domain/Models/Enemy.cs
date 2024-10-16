@@ -13,11 +13,11 @@ namespace SimpleEnemyFight.Domain.Models
         {
             public static Enemy CreateEnemy1()
             {
-                return new Enemy("JJ", ECharState.STAND, false, ConsoleColor.Cyan, 100, 10, EWeapons.STICK);
+                return new Enemy("JJ", ECharState.STAND, false, ConsoleColor.Magenta, 100, 10, EWeapons.STICK);
             }            
             public static Enemy CreateEnemy2()
             {
-                return new Enemy("Jenda", ECharState.STAND, false, ConsoleColor.Red, 100, 10, EWeapons.STICK);
+                return new Enemy("Jenda", ECharState.STAND, false, ConsoleColor.Magenta, 100, 10, EWeapons.STICK);
             }
 
             public static Enemy[] CreateEnemy = new[] { CreateEnemy1(), CreateEnemy2() };

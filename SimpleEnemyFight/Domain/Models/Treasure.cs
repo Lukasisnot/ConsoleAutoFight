@@ -15,5 +15,11 @@ namespace SimpleEnemyFight.Domain.Models
             else
                 Potion = (EPotions)Rand.Next((int)EPotions.NONE);
         }
+
+        public override void Die()
+        {
+            base.Die();
+            Sprite = ESprites.CHEST_OPENED;
+        }
     }
 }

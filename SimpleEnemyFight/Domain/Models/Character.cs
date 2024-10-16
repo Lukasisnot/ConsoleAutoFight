@@ -4,7 +4,7 @@ using SimpleEnemyFight.Domain.Enums;
 
 namespace SimpleEnemyFight.Domain.Models
 {
-    internal class Character : Entity
+    public class Character : Entity
     {
         public float BaseDamage { get; private set; }
         public EWeapons Weapon;
@@ -42,9 +42,10 @@ namespace SimpleEnemyFight.Domain.Models
             DodgeTimer.Enabled = false;
         }
 
-        public virtual void Update()
+        public override void Draw()
         {
-            Draw();
+            base.Draw();
+            Renderer.HealthBar(X, Y, 8, this, !IsLeft);
         }
 
         public virtual void Attack(Entity? entity = null)
@@ -54,17 +55,17 @@ namespace SimpleEnemyFight.Domain.Models
             float dmgMult = 1;
             switch (Weapon)
             {
-                case EWeapons.STICK: 
+                case EWeapons.STICK:
                     dmgMult = 1f;
                     break;
-                case EWeapons.DAGGER: 
+                case EWeapons.DAGGER:
                     dmgMult = 1.2f;
                     break;
-                case EWeapons.SWORD: 
+                case EWeapons.SWORD:
                     dmgMult = 1.5f;
                     break;
             }
-            if (entity != null) entity.Damage(Math.Max(0, entity.Hp - this.BaseDamage * dmgMult));
+            if (entity != null) entity.Damage(this.BaseDamage * dmgMult);
         }
         
         public virtual void Heal(EPotions potion)
@@ -93,7 +94,14 @@ namespace SimpleEnemyFight.Domain.Models
             State = ECharState.DODGE;
             DodgeTimer.Start();
         }
-        
+
+        public override void Die()
+        {
+            base.Die();
+            State = ECharState.DEAD;
+            Color = ConsoleColor.Red;
+        }
+
         public override string ToString() 
         {
             string output = $"Name: {Name}" +
